@@ -46,29 +46,34 @@ class AuthController extends Controller
 
     // Método de login
     public function login(Request $request)
-    {
-        // Validación de los datos recibidos
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|string|email|max:255',
-            'password' => 'required|string|min:8',
-        ]);
+{
+    // Validación de los datos recibidos
+    $validator = Validator::make($request->all(), [
+        'email' => 'required|string|email|max:255',
+        'password' => 'required|string|min:8',
+    ]);
 
-        // Si la validación falla, devolverá errores
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
-        }
-
-        // Verificar las credenciales
-        $user = User::where('email', $request->email)->first();
-
-        if (!$user || !Hash::check($request->password, $user->password)) {
-            return response()->json(['message' => 'Unauthorized'], 401);
-        }
-
-        // Crear un token para el usuario y retornarlo
-        return response()->json([
-            'user' => $user,
-            'token' => $user->createToken('API Token')->plainTextToken
-        ]);
+    // Si la validación falla, devolverá errores
+    if ($validator->fails()) {
+        return response()->json($validator->errors(), 422);
     }
+
+    // Verificar las credenciales
+    $user = User::where('email', $request->email)->first();
+
+    if (!$user || !Hash::check($request->password, $user->password)) {
+        return response()->json(['message' => 'Invalid credentials'], 401);
+    }
+
+    // Verificar si el usuario es admin
+    if (!$user->is_admin) {
+        return response()->json(['message' => 'Only admin can access'], 401);
+    }
+
+    // Crear un token para el usuario y retornarlo
+    return response()->json([
+        'user' => $user,
+        'token' => $user->createToken('API Token')->plainTextToken
+    ]);
+}
 }
