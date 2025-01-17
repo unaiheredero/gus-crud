@@ -7,6 +7,7 @@ const UserCrud = () => {
     name: '',
     email: '',
     password: '',
+    password_confirmation: '',  // Campo añadido
     is_admin: false,
     is_banned: false,
   });
@@ -34,9 +35,11 @@ const UserCrud = () => {
     try {
       await axios.post('http://127.0.0.1:8000/api/users', newUser);
       fetchUsers();
-      setNewUser({ name: '', email: '', password: '', is_admin: false, is_banned: false });
+      setNewUser({ name: '', email: '', password: '', password_confirmation: '', is_admin: false, is_banned: false });
+      setError(null); // Limpiar error en caso de éxito
     } catch (error) {
-      setError(error.response ? error.response.data : 'Error creating user');
+      const errorMessage = error.response?.data?.message || 'Error creating user';
+      setError(errorMessage);
     }
   };
 
@@ -48,8 +51,10 @@ const UserCrud = () => {
       await axios.put(`http://127.0.0.1:8000/api/users/${editUser.id}`, editUser);
       fetchUsers();
       setEditUser(null);
+      setError(null); // Limpiar error en caso de éxito
     } catch (error) {
-      setError('Error updating user');
+      const errorMessage = error.response?.data?.message || 'Error updating user';
+      setError(errorMessage);
     }
   };
 
@@ -57,8 +62,10 @@ const UserCrud = () => {
     try {
       await axios.delete(`http://127.0.0.1:8000/api/users/${userId}`);
       fetchUsers();
+      setError(null); // Limpiar error en caso de éxito
     } catch (error) {
-      setError('Error deleting user');
+      const errorMessage = error.response?.data?.message || 'Error deleting user';
+      setError(errorMessage);
     }
   };
 
@@ -89,6 +96,13 @@ const UserCrud = () => {
           placeholder="Password"
           value={newUser.password}
           onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
+        />
+        <input
+          type="password"
+          className="input"
+          placeholder="Confirm Password"
+          value={newUser.password_confirmation}
+          onChange={(e) => setNewUser({ ...newUser, password_confirmation: e.target.value })}
         />
         <div>
           <input

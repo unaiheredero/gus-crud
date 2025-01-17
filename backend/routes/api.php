@@ -1,7 +1,6 @@
 <?php
 use App\Http\Controllers\AuthController;
 // routes/api.php
-Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 
 
