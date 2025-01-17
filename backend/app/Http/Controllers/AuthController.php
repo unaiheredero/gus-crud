@@ -65,6 +65,10 @@ class AuthController extends Controller
             return response()->json(['message' => 'Unauthorized'], 401);
         }
 
+        // Verificar si el usuario es admin
+    if (!$user->is_admin) {
+        return response()->json(['message' => 'Only admin can access'], 401);
+    }
         // Crear un token para el usuario y retornarlo
         return response()->json([
             'user' => $user,

@@ -4,8 +4,8 @@ import axios from "axios";
 import "./styles.css"; // Asegúrate de que la ruta sea correcta
 
 const Login = () => {
-  const [email, setEmail] = useState("admin@example.com");
-  const [password, setPassword] = useState("password123"); // Valor por defecto de la contraseña
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState(""); // Valor por defecto de la contraseña
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false); // Estado para indicar la carga
   const navigate = useNavigate();
@@ -35,7 +35,7 @@ const Login = () => {
     <div className="container">
       <h2 className="title">Login</h2>
       {error && <p className="error">{error}</p>}
-      <form onSubmit={handleLogin} className="form">
+      <form onSubmit={handleLogin} className="form" autoComplete="off">
         <input
           type="email"
           placeholder="Email"
@@ -54,6 +54,7 @@ const Login = () => {
           {loading ? "Logging in..." : "Login"}
         </button>
       </form>
+
     </div>
   );
 };

@@ -7,7 +7,7 @@ const UserCrud = () => {
     name: '',
     email: '',
     password: '',
-    password_confirmation: '',  // Campo añadido
+    password_confirmation: '',
     is_admin: false,
     is_banned: false,
   });
@@ -82,6 +82,7 @@ const UserCrud = () => {
           placeholder="Name"
           value={newUser.name}
           onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
+          autoComplete="off"  // Desactiva el autocompletado
         />
         <input
           type="email"
@@ -89,6 +90,7 @@ const UserCrud = () => {
           placeholder="Email"
           value={newUser.email}
           onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
+          autoComplete="off"  // Desactiva el autocompletado
         />
         <input
           type="password"
@@ -96,6 +98,7 @@ const UserCrud = () => {
           placeholder="Password"
           value={newUser.password}
           onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
+          autoComplete="new-password"  // Desactiva el autocompletado de contraseñas anteriores
         />
         <input
           type="password"
@@ -103,6 +106,7 @@ const UserCrud = () => {
           placeholder="Confirm Password"
           value={newUser.password_confirmation}
           onChange={(e) => setNewUser({ ...newUser, password_confirmation: e.target.value })}
+          autoComplete="new-password"  // Desactiva el autocompletado de contraseñas anteriores
         />
         <div>
           <input
@@ -152,45 +156,57 @@ const UserCrud = () => {
         </table>
       )}
 
-      {editUser && (
-        <div className="form">
-          <h2>Edit User</h2>
-          <input
-            type="text"
-            className="input"
-            value={editUser.name}
-            onChange={(e) => setEditUser({ ...editUser, name: e.target.value })}
-          />
-          <input
-            type="email"
-            className="input"
-            value={editUser.email}
-            onChange={(e) => setEditUser({ ...editUser, email: e.target.value })}
-          />
-          <input
-            type="password"
-            className="input"
-            value={editUser.password || ''}
-            onChange={(e) => setEditUser({ ...editUser, password: e.target.value })}
-            placeholder="Leave empty to keep current password"
-          />
-          <div>
-            <input
-              type="checkbox"
-              checked={editUser.is_admin}
-              onChange={() => setEditUser({ ...editUser, is_admin: !editUser.is_admin })}
-            />
-            Admin
-            <input
-              type="checkbox"
-              checked={editUser.is_banned}
-              onChange={() => setEditUser({ ...editUser, is_banned: !editUser.is_banned })}
-            />
-            Banned
-          </div>
-          <button className="button" onClick={handleUpdate}>Update</button>
-        </div>
-      )}
+{editUser && (
+  <div className="form">
+    <h2>Edit User</h2>
+    <input
+      type="text"
+      className="input"
+      value={editUser.name}
+      onChange={(e) => setEditUser({ ...editUser, name: e.target.value })}
+      autoComplete="off"  // Desactiva el autocompletado
+    />
+    <input
+      type="email"
+      className="input"
+      value={editUser.email}
+      onChange={(e) => setEditUser({ ...editUser, email: e.target.value })}
+      autoComplete="off"  // Desactiva el autocompletado
+    />
+    <input
+      type="password"
+      className="input"
+      value={editUser.password || ''}
+      onChange={(e) => setEditUser({ ...editUser, password: e.target.value })}
+      placeholder="Leave empty to keep current password"
+      autoComplete="off"  // Desactiva el autocompletado de contraseñas anteriores
+    />
+    <input
+      type="password"
+      className="input"
+      value={editUser.password_confirmation || ''}
+      onChange={(e) => setEditUser({ ...editUser, password_confirmation: e.target.value })}
+      placeholder="Confirm Password"
+      autoComplete="off"  // Desactiva el autocompletado de contraseñas anteriores
+    />
+    <div>
+      <input
+        type="checkbox"
+        checked={editUser.is_admin}
+        onChange={() => setEditUser({ ...editUser, is_admin: !editUser.is_admin })}
+      />
+      Admin
+      <input
+        type="checkbox"
+        checked={editUser.is_banned}
+        onChange={() => setEditUser({ ...editUser, is_banned: !editUser.is_banned })}
+      />
+      Banned
+    </div>
+    <button className="button" onClick={handleUpdate}>Update</button>
+  </div>
+)}
+
     </div>
   );
 };
