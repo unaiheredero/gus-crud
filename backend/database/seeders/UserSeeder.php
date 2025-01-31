@@ -1,28 +1,33 @@
 <?php
+
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
 class UserSeeder extends Seeder
 {
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
     public function run()
     {
         DB::table('users')->insert([
-            'name' => 'Admin User',
+            'name' => 'Admin',
             'email' => 'admin@example.com',
-            'password' => bcrypt('password123'),
-            'is_admin' => true,
-            'is_banned' => false,
+            'passHash' => bcrypt('admin123'),
+            'isAdmin' => true,
+            'isBanned' => false,
         ]);
 
         DB::table('users')->insert([
-            'name' => 'Regular User',
+            'name' => 'User',
             'email' => 'user@example.com',
-            'password' => bcrypt('password123'),
-            'is_admin' => false,
-            'is_banned' => false,
+            'passHash' => bcrypt('user123'),
+            'isAdmin' => false,
+            'isBanned' => false,
         ]);
     }
 }

@@ -8,8 +8,8 @@ const UserCrud = () => {
     email: '',
     password: '',
     password_confirmation: '',
-    is_admin: false,
-    is_banned: false,
+    isAdmin: 0,
+    isBanned: 0,
   });
   const [editUser, setEditUser] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -35,7 +35,7 @@ const UserCrud = () => {
     try {
       await axios.post('http://127.0.0.1:8000/api/users', newUser);
       fetchUsers();
-      setNewUser({ name: '', email: '', password: '', password_confirmation: '', is_admin: false, is_banned: false });
+      setNewUser({ name: '', email: '', password: '', password_confirmation: '', isAdmin: 0, isBanned: 0 });
       setError(null); // Limpiar error en caso de éxito
     } catch (error) {
       const errorMessage = error.response?.data?.message || 'Error creating user';
@@ -111,14 +111,14 @@ const UserCrud = () => {
         <div>
           <input
             type="checkbox"
-            checked={newUser.is_admin}
-            onChange={() => setNewUser({ ...newUser, is_admin: !newUser.is_admin })}
+            checked={newUser.isAdmin}
+            onChange={() => setNewUser({ ...newUser, isAdmin: !newUser.isAdmin })}
           />
           Admin
           <input
             type="checkbox"
-            checked={newUser.is_banned}
-            onChange={() => setNewUser({ ...newUser, is_banned: !newUser.is_banned })}
+            checked={newUser.isBanned}
+            onChange={() => setNewUser({ ...newUser, isBanned: !newUser.isBanned })}
           />
           Banned
         </div>
@@ -144,8 +144,8 @@ const UserCrud = () => {
               <tr key={user.id}>
                 <td>{user.name}</td>
                 <td>{user.email}</td>
-                <td>{user.is_admin ? 'Yes' : 'No'}</td>
-                <td>{user.is_banned ? 'Yes' : 'No'}</td>
+                <td>{user.isAdmin ? 'Yes' : 'No'}</td>
+                <td>{user.isBanned ? 'Yes' : 'No'}</td>
                 <td>
                   <button className="button" onClick={() => setEditUser(user)}>Edit</button>
                   <button className="button" onClick={() => handleDelete(user.id)}>Delete</button>
@@ -192,14 +192,14 @@ const UserCrud = () => {
     <div>
       <input
         type="checkbox"
-        checked={editUser.is_admin}
-        onChange={() => setEditUser({ ...editUser, is_admin: !editUser.is_admin })}
+        checked={editUser.isAdmin}
+        onChange={() => setEditUser({ ...editUser, isAdmin: Number(!editUser.isAdmin) })}
       />
       Admin
       <input
         type="checkbox"
-        checked={editUser.is_banned}
-        onChange={() => setEditUser({ ...editUser, is_banned: !editUser.is_banned })}
+        checked={editUser.isBanned}
+        onChange={() => setEditUser({ ...editUser, isBanned: Number(!editUser.isBanned) })}
       />
       Banned
     </div>

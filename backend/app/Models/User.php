@@ -8,18 +8,18 @@ use Laravel\Sanctum\HasApiTokens; // Add this line
 class User extends Model
 {
     use HasFactory, HasApiTokens;
-
+    public $timestamps = false;
     protected $fillable = [
         'name',
         'email',
-        'password',
-        'is_admin',
-        'is_banned',
+        'passHash',
+        'isAdmin',
+        'isBanned',
     ];
 
     // Hide password field in response
     protected $hidden = [
-        'password',
+        'passHash',
     ];
 }
 
